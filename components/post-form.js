@@ -1,14 +1,19 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormState } from 'react-dom';
 import { FormButtons } from './form-buttons';
 
 export function PostForm({ action }) {
-  const [state, formAction] = useFormState(action, {});
-  const { pending } = useFormStatus();
+  const [{ errors }, formAction] = useFormState(action, { errors: [] });
   return (
     <>
       <h1>Create a new post</h1>
+      {errors.length > 0 && (
+        <ul className='form-errors'>
+          {errors.map((error, index) => (<li key={index}>{error}</li>))}
+        </ul>
+      )}
+      <ul className='form-errors'></ul>
       <form action={formAction}>
         <p className="form-control">
           <label htmlFor="title">Title</label>
@@ -28,7 +33,7 @@ export function PostForm({ action }) {
           <textarea id="content" name="content" rows="5" />
         </p>
         <p className="form-actions">
-          <FormButtons isLoading={pending} />
+          <FormButtons />
         </p>
       </form>
     </> 

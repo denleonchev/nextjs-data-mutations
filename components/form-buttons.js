@@ -1,5 +1,11 @@
-export function FormButtons({ isLoading }) {
-  if (isLoading) {
+'use client';
+
+import { useFormStatus } from 'react-dom';
+
+export function FormButtons() {
+  const { pending } = useFormStatus();
+
+  if (pending) {
     return <div>Creating post...</div>
   }
 
